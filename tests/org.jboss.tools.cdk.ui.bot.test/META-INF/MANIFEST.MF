@@ -13,7 +13,9 @@ Require-Bundle: org.jboss.reddeer.eclipse,
  org.eclipse.ui.workbench,
  org.jboss.tools.openshift.reddeer,
  org.jboss.tools.docker.reddeer,
- org.jboss.tools.cdk.reddeer
+ org.jboss.tools.cdk.reddeer,
+ org.eclipse.swt,
+ org.jboss.reddeer.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-BundleShape: jar
 Bundle-Localization: plugin

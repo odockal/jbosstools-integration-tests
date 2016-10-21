@@ -10,17 +10,17 @@
  ******************************************************************************/
 
 package org.jboss.tools.cdk.ui.bot.test;
+import org.jboss.reddeer.junit.runner.RedDeerSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-import org.junit.runners.Suite.SuiteClasses;
 
-@RunWith(Suite.class)
-@SuiteClasses({
+@RunWith(RedDeerSuite.class)
+@Suite.SuiteClasses({
 	CDKDevstudioBaseTest.class
 })
 /**
  * @author ondrej dockal
  */
-public class AllTestsSuite {
+public class CDKAllTestsSuite {
 
 }

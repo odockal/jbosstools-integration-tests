@@ -10,30 +10,11 @@
  ******************************************************************************/
 package org.jboss.tools.cdk.ui.bot.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
-import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersView;
-import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersViewException;
-import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersViewEnums.ServerState;
-import org.jboss.reddeer.eclipse.wst.server.ui.wizard.NewServerWizardDialog;
-import org.jboss.reddeer.eclipse.wst.server.ui.wizard.NewServerWizardPage;
-import org.jboss.reddeer.jface.exception.JFaceLayerException;
-import org.jboss.reddeer.jface.viewer.handler.TreeViewerHandler;
-import org.jboss.reddeer.workbench.ui.dialogs.WorkbenchPreferenceDialog;
-import org.jboss.tools.cdk.reddeer.preferences.OpenShift3SSLCertificatePreferencePage;
-import org.jboss.tools.cdk.reddeer.ui.CDEServer;
-import org.jboss.tools.cdk.reddeer.ui.CDEServersView;
-import org.jboss.tools.cdk.reddeer.ui.wizard.NewServerContainerWizardPage;
-import org.jboss.tools.docker.reddeer.ui.ConnectionItem;
-import org.jboss.tools.docker.reddeer.ui.DockerExplorer;
-import org.jboss.tools.openshift.reddeer.view.OpenShiftExplorerView;
-import org.jboss.tools.openshift.reddeer.view.resources.OpenShift2Connection;
-import org.jboss.tools.openshift.reddeer.view.resources.OpenShift3Connection;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import java.util.List;
 
 import org.jboss.reddeer.common.exception.RedDeerException;
 import org.jboss.reddeer.common.exception.WaitTimeoutExpiredException;
@@ -43,9 +24,37 @@ import org.jboss.reddeer.common.wait.WaitUntil;
 import org.jboss.reddeer.common.wait.WaitWhile;
 import org.jboss.reddeer.core.condition.JobIsRunning;
 import org.jboss.reddeer.core.condition.ShellWithTextIsAvailable;
+import org.jboss.reddeer.core.condition.WidgetIsFound;
+import org.jboss.reddeer.core.matcher.ClassMatcher;
+import org.jboss.reddeer.core.matcher.WithMnemonicTextMatcher;
+import org.jboss.reddeer.eclipse.equinox.security.ui.StoragePreferencePage;
 import org.jboss.reddeer.eclipse.exception.EclipseLayerException;
 import org.jboss.reddeer.eclipse.ui.console.ConsoleView;
 import org.jboss.reddeer.eclipse.wst.server.ui.view.Server;
+import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersView;
+import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersViewEnums.ServerState;
+import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersViewException;
+import org.jboss.reddeer.eclipse.wst.server.ui.wizard.NewServerWizardDialog;
+import org.jboss.reddeer.eclipse.wst.server.ui.wizard.NewServerWizardPage;
+import org.jboss.reddeer.jface.exception.JFaceLayerException;
+import org.jboss.reddeer.jface.viewer.handler.TreeViewerHandler;
+import org.jboss.reddeer.swt.api.TableItem;
+import org.jboss.reddeer.swt.condition.WidgetIsEnabled;
+import org.jboss.reddeer.swt.impl.button.FinishButton;
+import org.jboss.reddeer.workbench.ui.dialogs.WorkbenchPreferenceDialog;
+import org.jboss.tools.cdk.reddeer.preferences.OpenShift3SSLCertificatePreferencePage;
+import org.jboss.tools.cdk.reddeer.ui.CDEServer;
+import org.jboss.tools.cdk.reddeer.ui.CDEServersView;
+import org.jboss.tools.cdk.reddeer.ui.wizard.NewServerContainerWizardPage;
+import org.jboss.tools.docker.reddeer.ui.ConnectionItem;
+import org.jboss.tools.docker.reddeer.ui.DockerExplorer;
+import org.jboss.tools.openshift.reddeer.view.OpenShiftExplorerView;
+import org.jboss.tools.openshift.reddeer.view.resources.OpenShift3Connection;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 
 /**
@@ -116,6 +125,8 @@ public class CDKDevstudioBaseTest {
 	
 	@BeforeClass
 	public static void setUpEnvironemnt() {
+		log.info("Disabling Secure Storage password preferences");
+		disableSecureStorage();
 		log.info("Checking given program arguments");
 		checkCredentials();
 		log.info("Adding new Container Development Environment server adapter");
@@ -161,6 +172,7 @@ public class CDKDevstudioBaseTest {
 		try {
 			server.start();
 		} catch (ServersViewException e) {
+			log.error(e.getMessage());
 			e.printStackTrace();
 		}
 		printCertificates();
@@ -182,7 +194,6 @@ public class CDKDevstudioBaseTest {
 		assertEquals(ServerState.STARTED, server.getLabel().getState());
 	}
 	
-	// TODO: rewrite with using OpenShift3Connection object with parameters passed to program
 	@Test
 	public void testOpenShiftConnection() {
 		startServerAdapter();
@@ -246,6 +257,7 @@ public class CDKDevstudioBaseTest {
 		NewServerContainerWizardPage containerPage = new NewServerContainerWizardPage();
 		containerPage.setCredentials(USERNAME, PASSWORD);
 		containerPage.setFolder(VAGRANTFILE_PATH);
+		new WaitUntil(new WidgetIsEnabled(new FinishButton()), TimePeriod.NORMAL);
 		dialog.finish();
 	}
 	
@@ -284,5 +296,39 @@ public class CDKDevstudioBaseTest {
 		preferencePage.apply();
 		dialog.ok();		
 	}
+	
+    private static void disableSecureStorage() {
+        WorkbenchPreferenceDialog preferenceDialog = new WorkbenchPreferenceDialog();
+        StoragePreferencePage storagePage = new StoragePreferencePage();
+
+        log.info("dialog.open");
+        preferenceDialog.open();
+
+        log.info("dialog.select(storagePage)");
+        preferenceDialog.select(storagePage);
+        log.info("waiting for Password Tab");
+        
+        try {
+	        new WaitUntil(new WidgetIsFound<org.eclipse.swt.custom.CLabel>(
+	        		new ClassMatcher(org.eclipse.swt.custom.CLabel.class), 
+	        		new WithMnemonicTextMatcher("Secure Storage")), TimePeriod.NORMAL);
+	        
+	        log.info("Getting master password providers");
+	        List<TableItem> items = storagePage.getMasterPasswordProviders();
+	        for (TableItem item : items) {
+	        	log.info("uncheking table item: " + item.getText());
+	            item.setChecked(false);
+	        }
+	
+	        log.info("apply");
+	        storagePage.apply();
+	        log.info("ok");
+	        preferenceDialog.ok();
+        } catch (WaitTimeoutExpiredException exc) {
+        	log.error("Secure Storage preferences dialog has timed out");
+        }
+        //log.info("checking job is running");
+        //new WaitWhile(new JobIsRunning());
+    }
 
 }
