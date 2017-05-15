@@ -25,6 +25,7 @@ import org.jboss.reddeer.requirements.server.ServerReqState;
 import org.jboss.tools.jsf.ui.test.requirement.DoNotUseVPERequirement.DoNotUseVPE;
 import org.jboss.tools.jsf.ui.test.utils.JSFTestUtils;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized.Parameters;
@@ -67,6 +68,11 @@ public class CreateJSFProjectTest {
 		JSFTestUtils.checkProblemsView();
 
 		JSFTestUtils.checkErrorLog();
+	}
+	
+	@Before
+	public void setup() {
+		JSFTestUtils.deleteErrorLog();
 	}
 
 	@After

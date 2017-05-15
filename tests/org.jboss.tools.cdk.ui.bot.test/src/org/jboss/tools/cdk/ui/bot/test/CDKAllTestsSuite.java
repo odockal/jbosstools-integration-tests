@@ -11,13 +11,15 @@
 package org.jboss.tools.cdk.ui.bot.test;
 
 import org.jboss.reddeer.junit.runner.RedDeerSuite;
+import org.jboss.tools.cdk.ui.bot.test.server.wizard.CDKServerWizardTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(RedDeerSuite.class)
 @Suite.SuiteClasses({
-	CDKDevstudioIntegrationTest.class,
-	CDK3DevstudioIntegrationTest.class
+	CDKServerWizardTest.class,
+	//CDKDevstudioIntegrationTest.class,
+	//CDK3DevstudioIntegrationTest.class
 })
 /**
  * @author ondrej dockal

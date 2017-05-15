@@ -8,12 +8,14 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdk.ui.bot.test;
+package org.jboss.tools.cdk.ui.bot.test.server.adapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.jboss.reddeer.common.exception.RedDeerException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.jboss.reddeer.common.exception.WaitTimeoutExpiredException;
 import org.jboss.reddeer.common.logging.Logger;
 import org.jboss.reddeer.common.wait.TimePeriod;
@@ -37,11 +39,13 @@ import org.jboss.reddeer.swt.impl.tree.DefaultTree;
 import org.jboss.reddeer.workbench.ui.dialogs.WorkbenchPreferenceDialog;
 import org.jboss.tools.cdk.reddeer.preferences.OpenShift3SSLCertificatePreferencePage;
 import org.jboss.tools.cdk.reddeer.ui.CDEServersView;
+import org.jboss.tools.cdk.ui.bot.test.CDKAbstractTest;
+import org.jboss.tools.cdk.ui.bot.test.utils.CDKTestUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
-public abstract class CDKDevstudioAbstractTest {
+public abstract class CDKDevstudioAbstractTest extends CDKAbstractTest {
 
 	protected ServersView serversView;
 	
@@ -49,24 +53,7 @@ public abstract class CDKDevstudioAbstractTest {
 	
 	private static final Logger log = Logger.getLogger(CDKDevstudioAbstractTest.class);
 	
-	protected static final String USERNAME;
-	
-	protected static final String PASSWORD;
-	
-	private static final String CREDENTIALS_DOMAIN = "access.redhat.com"; //$NON-NLS-1$
-	
-	static {
-		USERNAME = getSystemProperty("developers.username"); //$NON-NLS-1$
-		PASSWORD = getSystemProperty("developers.password"); //$NON-NLS-1$
-	}
-	
-	protected static String getSystemProperty(String systemProperty) {
-		String property = System.getProperty(systemProperty);
-		if (!(property == null || property.equals("") || property.startsWith("${"))) { //$NON-NLS-1$ //$NON-NLS-2$
-			return property;
-		}
-		return null;
-	}
+	public static final String SERVER_ADAPTER = "Container Development Environment"; //$NON-NLS-1$
 	
 	protected abstract Server getCDEServer();
 	
@@ -78,17 +65,13 @@ public abstract class CDKDevstudioAbstractTest {
 	
 	protected abstract String getServerAdapter();
 	
-	private static void checkCredentials() {
-		if (USERNAME == null || PASSWORD== null) {
-			throw new RedDeerException("Credentials for Red Hat Developers were not set properly"); //$NON-NLS-1$
-		}
-		log.info("Red Hat Developers username " + USERNAME + " and given password are set"); //$NON-NLS-1$ //$NON-NLS-2$
-	}
-	
 	@BeforeClass
 	public static void setUpEnvironemnt() {
 		log.info("Checking given program arguments"); //$NON-NLS-1$
-		checkCredentials();
+		Map<String, String> dict = new HashMap<>();
+		dict.put("Username", USERNAME);
+		dict.put("Password", PASSWORD);
+		CDKTestUtils.checkParameterNotNull(dict);
 		new WaitWhile(new JobIsRunning(), TimePeriod.LONG, false);
 	}
 	

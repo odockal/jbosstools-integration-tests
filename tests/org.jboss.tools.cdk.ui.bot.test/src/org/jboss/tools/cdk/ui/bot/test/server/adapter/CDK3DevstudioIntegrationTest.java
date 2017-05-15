@@ -8,11 +8,14 @@
  * Contributors: 
  * Red Hat, Inc. - initial API and implementation 
  ******************************************************************************/
-package org.jboss.tools.cdk.ui.bot.test;
+package org.jboss.tools.cdk.ui.bot.test.server.adapter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import org.jboss.reddeer.common.exception.RedDeerException;
 import org.jboss.reddeer.common.exception.WaitTimeoutExpiredException;
@@ -22,7 +25,6 @@ import org.jboss.reddeer.common.wait.WaitUntil;
 import org.jboss.reddeer.common.wait.WaitWhile;
 import org.jboss.reddeer.core.condition.JobIsRunning;
 import org.jboss.reddeer.core.condition.ShellWithTextIsAvailable;
-import org.jboss.reddeer.eclipse.exception.EclipseLayerException;
 import org.jboss.reddeer.eclipse.wst.server.ui.view.Server;
 import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersView;
 import org.jboss.reddeer.eclipse.wst.server.ui.view.ServersViewEnums.ServerState;
@@ -36,6 +38,7 @@ import org.jboss.reddeer.swt.impl.button.FinishButton;
 import org.jboss.tools.cdk.reddeer.requirements.DisableSecureStorageRequirement.DisableSecureStorage;
 import org.jboss.tools.cdk.reddeer.ui.CDEServer;
 import org.jboss.tools.cdk.reddeer.ui.wizard.NewCDK3ServerContainerWizardPage;
+import org.jboss.tools.cdk.ui.bot.test.utils.CDKTestUtils;
 import org.jboss.tools.docker.reddeer.ui.DockerExplorerView;
 import org.jboss.tools.docker.reddeer.ui.resources.DockerConnection;
 import org.jboss.tools.openshift.reddeer.view.OpenShiftExplorerView;
@@ -54,13 +57,7 @@ import org.junit.runner.RunWith;
 @DisableSecureStorage
 public class CDK3DevstudioIntegrationTest extends CDKDevstudioAbstractTest {
 
-	private static final String SERVER_NAME = "Red Hat Container Development Kit 3 (Tech Preview)"; //$NON-NLS-1$
-	
-	private static final String SERVER_ADAPTER = "Container Development Environment 3"; //$NON-NLS-1$
-	
-	private static final String SERVER_TYPE = "Red Hat JBoss Middleware"; //$NON-NLS-1$
-	
-	private static final String SERVER_HOST = "localhost"; //$NON-NLS-1$
+	private static final String SERVER_NAME = "Red Hat Container Development Kit 3"; //$NON-NLS-1$
 	
 	private static final String OPENSHIFT_USER_NAME = "developer"; //$NON-NLS-1$
 	
@@ -68,29 +65,17 @@ public class CDK3DevstudioIntegrationTest extends CDKDevstudioAbstractTest {
 	
 	private static final String DOCKER_DAEMON_CONNECTION = SERVER_ADAPTER;
 	
+	private static Logger log = Logger.getLogger(CDK3DevstudioIntegrationTest.class);
+	
 	private static final String MINISHIFT_HYPERVISOR;
 	
 	private static final String MINISHIFT_PATH;
 	
-	private static Logger log = Logger.getLogger(CDK3DevstudioIntegrationTest.class);
-	
 	private TreeViewerHandler treeViewerHandler = TreeViewerHandler.getInstance();
 	
 	static {
-		MINISHIFT_PATH = getSystemProperty("minishift.path"); //$NON-NLS-1$
-		MINISHIFT_HYPERVISOR = getSystemProperty("hypervisor"); //$NON-NLS-1$
-	}
-	
-	private static void checkMinishiftParams() {
-		if (MINISHIFT_PATH == null) {
-			throw new RedDeerException("Minishift binary path was not specified"); //$NON-NLS-1$
-		}
-		log.info("Minishift binary file is " + MINISHIFT_PATH); //$NON-NLS-1$		
-		if (MINISHIFT_HYPERVISOR == null) {
-			log.info("Default hypervisor will be set"); //$NON-NLS-1$	
-		} else {
-			log.info(MINISHIFT_HYPERVISOR + " is set as hypervisor"); //$NON-NLS-1$		
-		}
+		MINISHIFT_PATH = CDKTestUtils.getSystemProperty("minishift.path"); //$NON-NLS-1$
+		MINISHIFT_HYPERVISOR = CDKTestUtils.getSystemProperty("hypervisor"); //$NON-NLS-1$
 	}
 
 	@Override
@@ -111,7 +96,6 @@ public class CDK3DevstudioIntegrationTest extends CDKDevstudioAbstractTest {
 	@Override
 	protected void setCDEServer(Server server) {
 		this.server = (CDEServer)server;
-		
 	}
 
 	@Override
@@ -121,21 +105,19 @@ public class CDK3DevstudioIntegrationTest extends CDKDevstudioAbstractTest {
 	
 	@BeforeClass
 	public static void setup() {
-		checkMinishiftParams();
-		log.info("Adding new Container Development Environment server adapter"); //$NON-NLS-1$
+		Map<String, String> dict = new HashMap<>();
+		dict.put("Minishift path", MINISHIFT_PATH);
+		dict.put("Minishift hypervisor", MINISHIFT_HYPERVISOR);
+		CDKTestUtils.checkParameterNotNull(dict);
+		CDKTestUtils.deleteCDEServer(SERVER_ADAPTER);
 		addNewCDEServer();
 	}
 	
 	private static void addNewCDEServer() {
-		// call new server dialog from servers view
-		ServersView view = new ServersView();
-		view.open();
-		NewServerWizardDialog dialog = view.newServer();
+		NewServerWizardDialog dialog = CDKTestUtils.openNewServerWizardDialog();
 		NewServerWizardPage page = new NewServerWizardPage();
-		
-		new WaitWhile(new JobIsRunning(), TimePeriod.NORMAL, false);
 		// set first dialog page
-		page.selectType(SERVER_TYPE, SERVER_NAME);
+		page.selectType(SERVER_TYPE_GROUP, SERVER_NAME);
 		page.setHostName(SERVER_HOST);
 		page.setName(SERVER_ADAPTER);
 		dialog.next();
@@ -160,15 +142,7 @@ public class CDK3DevstudioIntegrationTest extends CDKDevstudioAbstractTest {
 	
 	@AfterClass
 	public static void tearDownEnvironment() {
-		log.info("Deleting Container Development Environment server adapter"); //$NON-NLS-1$
-		ServersView servers = new ServersView();
-		servers.open();
-		try {
-			servers.getServer(SERVER_ADAPTER).delete(true);
-		} catch (EclipseLayerException exc) {
-			log.error(exc.getMessage());
-			exc.printStackTrace();
-		} 
+		CDKTestUtils.deleteCDEServer(SERVER_ADAPTER);
 		removeAccessRedHatCredentials();
 	}
 	

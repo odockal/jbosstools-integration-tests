@@ -11,6 +11,8 @@
 package org.jboss.tools.cdk.ui.bot.test;
 
 import org.jboss.reddeer.junit.runner.RedDeerSuite;
+import org.jboss.tools.cdk.ui.bot.test.server.adapter.CDK3DevstudioIntegrationTest;
+import org.jboss.tools.cdk.ui.bot.test.server.adapter.CDKDevstudioIntegrationTest;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 

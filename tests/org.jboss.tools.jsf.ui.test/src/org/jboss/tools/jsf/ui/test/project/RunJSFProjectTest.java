@@ -75,6 +75,7 @@ public class RunJSFProjectTest {
 	@Before
 	public void setup() {
 		JSFTestUtils.createJSFProject(projectName, jsfEnvironment, template, false);
+		JSFTestUtils.deleteErrorLog();
 	}
 
 	@After
