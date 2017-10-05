@@ -51,6 +51,8 @@ import org.junit.BeforeClass;
 @DisableSecureStorage
 public abstract class CDKServerWizardAbstractTest extends CDKAbstractTest {
 	
+	protected static boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("win");
+	
 	private static final String separator = System.getProperty("file.separator");
 	
 	// page description messages
@@ -61,19 +63,17 @@ public abstract class CDKServerWizardAbstractTest extends CDKAbstractTest {
 	
 	protected static final String CANNOT_RUN_PROGRAM = "Cannot run program";
 	
-	protected static final String NOT_EXECUTABLE = "is not executable";
+	protected static final String NOT_EXECUTABLE = IS_WINDOWS ? "Access is denied" : "is not executable";
 	
 	// possible dialog values passed by user
 
-	protected static boolean IS_WINDOWS = System.getProperty("os.name").toLowerCase().contains("win");
-	
 	protected static final String EXISTING_PATH = System.getProperty("user.dir");
 	
 	protected static final String NON_EXISTING_PATH = EXISTING_PATH + separator + "some_random_filename";
 	
-	protected static final String NON_EXECUTABLE_FILE = getProjectAbsolutePath("/resources/non-executable");
+	protected static final String NON_EXECUTABLE_FILE = getProjectAbsolutePath("resources/" + (IS_WINDOWS ? "non-executable.bat" : "non-executable"));
 	
-	protected static final String EXECUTABLE_FILE = getProjectAbsolutePath("resources/" + (IS_WINDOWS ? "executable.sh" : "executable.sh"));	
+	protected static final String EXECUTABLE_FILE = getProjectAbsolutePath("resources/" + (IS_WINDOWS ? "executable.bat" : "executable.sh"));	
 	
 	protected static final String MINISHIFT_VALIDATION_JOB = "Validate minishift location";
 	

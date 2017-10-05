@@ -11,12 +11,9 @@
 package org.jboss.tools.cdk.ui.bot.test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.reddeer.common.exception.RedDeerException;
 import org.jboss.tools.cdk.ui.bot.test.utils.CDKTestUtils;
 
