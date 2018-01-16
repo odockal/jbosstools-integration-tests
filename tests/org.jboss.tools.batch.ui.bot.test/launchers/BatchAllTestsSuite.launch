@@ -27,7 +27,8 @@
 <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+<stringAttribute key="org.eclipse.jdt.launching.JAVA_COMMAND" value="java"/>
+<stringAttribute key="org.eclipse.jdt.launching.JRE_CONTAINER" value="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/java-9-openjdk-9.0.1.11-4.fc26.x86_64"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="org.jboss.tools.batch.ui.bot.test.AllTestsSuite"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-os ${target.os} -ws ${target.ws} -arch ${target.arch} -nl ${target.nl} -consoleLog  -pluginCustomization ${project_loc:org.jboss.tools.batch.ui.bot.test}/../pluginCustomization.ini"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="org.jboss.tools.batch.ui.bot.test"/>
@@ -38,6 +39,7 @@
 <stringAttribute key="rd.launch.property.rd.captureScreenshot" value="true"/>
 <stringAttribute key="rd.launch.property.rd.closeShells" value="true"/>
 <stringAttribute key="rd.launch.property.rd.closeWelcomeScreen" value="true"/>
+<stringAttribute key="rd.launch.property.rd.defaultKey" value="org.eclipse.reddeer.widget.key"/>
 <stringAttribute key="rd.launch.property.rd.disableMavenIndex" value="true"/>
 <stringAttribute key="rd.launch.property.rd.logCollectorEnabled" value="true"/>
 <stringAttribute key="rd.launch.property.rd.logLevel" value="ALL"/>

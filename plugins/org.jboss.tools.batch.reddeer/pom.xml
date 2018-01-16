@@ -11,4 +11,30 @@
 	<artifactId>org.jboss.tools.batch.reddeer</artifactId>
 	<packaging>eclipse-plugin</packaging>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-toolchains-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                <execution>
+                    <phase>compile</phase>
+                    <goals>
+                    <goal>toolchain</goal>
+                    </goals>
+                </execution>
+                </executions>
+                <configuration>
+                <toolchains>
+                    <jdk>
+                    <version>9</version>
+                    <vendor>openjdk</vendor>
+                    </jdk>
+                </toolchains>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    
 </project>

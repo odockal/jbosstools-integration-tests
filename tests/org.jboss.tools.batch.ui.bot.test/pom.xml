@@ -15,7 +15,7 @@
 	<properties>
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 	</properties>
-	
+
 	<profiles>
 		<profile>
 			<id>smoke-tests</id>
@@ -54,7 +54,7 @@
 						</configuration>
 					</plugin>
 				</plugins>
-			</build>			
+			</build>
 		</profile>
 	</profiles>
 
@@ -69,6 +69,27 @@
 					<forkedProcessTimeoutInSeconds>7200</forkedProcessTimeoutInSeconds>
 					<testSuite>org.jboss.tools.batch.ui.bot.test</testSuite>
 					<testClass>${suiteClass}</testClass>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-toolchains-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>toolchain</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<toolchains>
+						<jdk>
+							<version>9</version>
+							<vendor>openjdk</vendor>
+						</jdk>
+					</toolchains>
 				</configuration>
 			</plugin>
 		</plugins>
