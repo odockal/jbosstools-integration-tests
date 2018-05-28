@@ -12,6 +12,7 @@ package org.jboss.tools.cdi.bot.test.beans.decorator.template;
 
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassCreationWizard;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
@@ -46,9 +47,9 @@ public abstract class DecoratorFromWebBeanTemplate extends CDITestBase {
 	
 	@Before
 	public void addClassesToProject(){
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(PROJECT_NAME).getProjectItem("Java Resources","src").select();
+		pe.getProject(PROJECT_NAME).getProjectItem("src").select();
 		createPageWithContent("Account","resources/classes/Account.java");
 		createPageWithContent("User","resources/classes/User.java");
 	}
@@ -71,9 +72,9 @@ public abstract class DecoratorFromWebBeanTemplate extends CDITestBase {
 	@Test
 	public void testCreatingDecoratorWithMenu() {
 		
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES,CDIConstants.SRC,getPackageName(),ACCOUNT_JAVA).select();
+		pe.getProject(getProjectName()).getProjectItem(CDIConstants.SRC,getPackageName(),ACCOUNT_JAVA).select();
 		
 		
 		NewDecoratorCreationWizard dw = new NewDecoratorCreationWizard();
@@ -100,7 +101,7 @@ public abstract class DecoratorFromWebBeanTemplate extends CDITestBase {
 				" <decorators>"+System.getProperty("line.separator")+"  " +
 				"<class>cdi.AccountDecorator</class>"+System.getProperty("line.separator")+" </decorators>"));
 		
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES,CDIConstants.SRC, 
+		pe.getProject(getProjectName()).getProjectItem(CDIConstants.SRC, 
 				getPackageName(), ACCOUNT_DECORATOR_JAVA).open();
 		
 		TextEditor activeEditor = new TextEditor(ACCOUNT_DECORATOR_JAVA);
@@ -127,7 +128,7 @@ public abstract class DecoratorFromWebBeanTemplate extends CDITestBase {
 		dw.addDecoratedTypeInterfaces(getPackageName() + "." + ACCOUNT);
 		dw.finish();
 	
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(getProjectName()).getProjectItem(CDIConstants.WEB_INF_BEANS_XML_PATH.split("/")).open();
 		
@@ -138,7 +139,7 @@ public abstract class DecoratorFromWebBeanTemplate extends CDITestBase {
 				" <decorators>"+System.getProperty("line.separator")+"  " +
 				"<class>cdi.AccountDecorator</class>"+System.getProperty("line.separator")+" </decorators>"));
 		
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES,CDIConstants.SRC, 
+		pe.getProject(getProjectName()).getProjectItem(CDIConstants.SRC, 
 				getPackageName(), ACCOUNT_DECORATOR_JAVA).open();
 		
 		TextEditor activeEditor = new TextEditor(ACCOUNT_DECORATOR_JAVA);

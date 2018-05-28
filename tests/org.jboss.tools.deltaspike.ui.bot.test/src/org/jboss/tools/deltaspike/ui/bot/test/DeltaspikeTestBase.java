@@ -29,6 +29,7 @@ import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.common.wait.WaitWhile;
 import org.eclipse.reddeer.core.matcher.WithTextMatcher;
 import org.eclipse.reddeer.eclipse.core.resources.Project;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.m2e.core.ui.wizard.MavenImportWizard;
 import org.eclipse.reddeer.eclipse.ui.dialogs.PropertyDialog;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
@@ -102,7 +103,7 @@ public class DeltaspikeTestBase {
 			fail("Unable to import " + projectName);
 		}
 
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		Project project = pe.getProject(projectName);
 
@@ -216,9 +217,9 @@ public class DeltaspikeTestBase {
 	}
 
 	protected void openClass(String projectName, String packageName, String classFullName) {
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(projectName).getProjectItem("Java Resources", "src", packageName, classFullName).open();
+		pe.getProject(projectName).getProjectItem("src", packageName, classFullName).open();
 	}
 
 	protected static void cleanProjects() {
@@ -231,7 +232,7 @@ public class DeltaspikeTestBase {
 
 	protected void deleteAllProjects() {
 		EditorHandler.getInstance().closeAll(false);
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		for (Project p : pe.getProjects()) {
 			try {

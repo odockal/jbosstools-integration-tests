@@ -14,6 +14,7 @@ package org.jboss.tools.cdi.bot.test.beans.dialog.template;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.jface.text.contentassist.ContentAssistant;
 import org.eclipse.reddeer.workbench.impl.editor.TextEditor;
@@ -30,9 +31,9 @@ public class AllAssignableDialogTemplate extends CDITestBase {
 	
 	@Before
 	public void prepareClasses(){
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		if(!pe.getProject(PROJECT_NAME).containsResource("Java Resources","src",getPackageName())){
+		if(!pe.getProject(PROJECT_NAME).containsResource( "src", getPackageName())){
 			createWithContent("AbstractManager");
 			createWithContent("App");
 			createWithContent("Basic");
@@ -59,9 +60,9 @@ public class AllAssignableDialogTemplate extends CDITestBase {
 
 	@Test
 	public void testDecorator() {
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem( CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor editor = new TextEditor(appClass);
 		editor.selectText("manager");
@@ -86,9 +87,9 @@ public class AllAssignableDialogTemplate extends CDITestBase {
 	@Test
 	public void testInterceptor() {
 
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES,CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem(CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor editor = new TextEditor(appClass);
 		editor.selectText("manager");
@@ -112,9 +113,9 @@ public class AllAssignableDialogTemplate extends CDITestBase {
 	@Test
 	public void testUnselectedAlternative() {
 
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem( CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor editor = new TextEditor(appClass);
 		editor.selectText("manager");
@@ -138,9 +139,9 @@ public class AllAssignableDialogTemplate extends CDITestBase {
 	@Test
 	public void testUnavailableProducer() {
 
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem( CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor editor = new TextEditor(appClass);
 		editor.selectText("manager");
@@ -164,9 +165,9 @@ public class AllAssignableDialogTemplate extends CDITestBase {
 	@Test
 	public void testSpecializedBeans() {
 
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem( CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor editor = new TextEditor(appClass);
 		editor.selectText("manager");
@@ -190,9 +191,9 @@ public class AllAssignableDialogTemplate extends CDITestBase {
 	@Test
 	public void testAmbiguousBeans() {
 		
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem( CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor editor = new TextEditor(appClass);
 		editor.selectText("managerImpl");

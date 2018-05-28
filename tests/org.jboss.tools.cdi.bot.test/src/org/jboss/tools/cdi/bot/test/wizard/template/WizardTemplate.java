@@ -19,7 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.reddeer.common.wait.WaitWhile;
-import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.swt.impl.button.CancelButton;
 import org.eclipse.reddeer.swt.impl.button.PushButton;
 import org.eclipse.reddeer.workbench.core.condition.JobIsRunning;
@@ -61,7 +61,7 @@ public class WizardTemplate extends CDITestBase {
 		/**
 		 * needed for creating non-dependant components
 		 */
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(getProjectName()).select();
 	}

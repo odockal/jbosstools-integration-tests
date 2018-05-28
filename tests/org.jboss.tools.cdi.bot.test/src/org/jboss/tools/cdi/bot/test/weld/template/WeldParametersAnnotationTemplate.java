@@ -6,9 +6,9 @@ import org.eclipse.reddeer.common.exception.WaitTimeoutExpiredException;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.common.wait.WaitWhile;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassCreationWizard;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassWizardPage;
-import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.swt.impl.menu.ContextMenu;
 import org.eclipse.reddeer.workbench.condition.EditorHasValidationMarkers;
 import org.eclipse.reddeer.workbench.core.condition.JobIsRunning;
@@ -25,7 +25,7 @@ public class WeldParametersAnnotationTemplate extends CDITestBase{
 	@Before
 	public void addLibs(){
 		projectHelper.addLibrariesIntoProject(PROJECT_NAME, WELD_SE_JAR);
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(PROJECT_NAME).select();
 		new ContextMenu().getItem("Refresh").select();

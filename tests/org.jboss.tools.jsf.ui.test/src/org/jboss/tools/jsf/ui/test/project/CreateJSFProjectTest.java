@@ -15,6 +15,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.junit.annotation.RequirementRestriction;
 import org.eclipse.reddeer.junit.internal.runner.ParameterizedRequirementsRunnerFactory;
@@ -74,7 +75,7 @@ public class CreateJSFProjectTest {
 
 		JSFTestUtils.createJSFProject(projectName, jsfEnvironment, template);
 
-		ProjectExplorer projectExplorer = new ProjectExplorer();
+		PackageExplorerPart projectExplorer = new PackageExplorerPart();
 		projectExplorer.open();
 		assertTrue(projectExplorer.containsProject(projectName));
 

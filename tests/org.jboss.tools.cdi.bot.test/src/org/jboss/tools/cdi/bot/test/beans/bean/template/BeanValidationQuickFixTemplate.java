@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 
-import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.ui.problems.Problem;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
 import org.jboss.tools.cdi.reddeer.CDIConstants;
@@ -193,9 +193,9 @@ public class BeanValidationQuickFixTemplate extends CDITestBase {
 	 */
 	@After
 	public void cleanProject() {
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC, getPackageName())
+		pe.getProject(getProjectName()).getProjectItem(CDIConstants.SRC, getPackageName())
 				.delete();
 	}
 	

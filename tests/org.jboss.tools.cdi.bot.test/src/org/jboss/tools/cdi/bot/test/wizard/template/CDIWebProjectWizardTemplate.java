@@ -21,6 +21,7 @@ import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.common.wait.WaitWhile;
 import org.eclipse.reddeer.eclipse.condition.ProblemExists;
 import org.eclipse.reddeer.eclipse.core.resources.Project;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.eclipse.ui.views.markers.ProblemsView.ProblemType;
@@ -52,7 +53,7 @@ public class CDIWebProjectWizardTemplate{
 	@After
 	public void cleanup(){
 		EditorHandler.getInstance().closeAll(false);
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		for(Project p: pe.getProjects()){
 			try{
@@ -77,7 +78,7 @@ public class CDIWebProjectWizardTemplate{
 		cw.finish();
 		isCDISupportEnabled(PROJECT_NAME);
 		isCDIFacetEnabled(PROJECT_NAME, CDIVersion);
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		assertTrue(pe.containsProject(PROJECT_NAME));
 		assertTrue(pe.getProject(PROJECT_NAME).containsResource("WebContent","WEB-INF","beans.xml"));
@@ -107,7 +108,7 @@ public class CDIWebProjectWizardTemplate{
 		cw.finish();
 		isCDISupportEnabled(PROJECT_NAME);
 		isCDIFacetEnabled(PROJECT_NAME, CDIVersion);
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		assertTrue(pe.containsProject(PROJECT_NAME));
 		assertFalse(pe.getProject(PROJECT_NAME).containsResource("WebContent","WEB-INF","beans.xml"));
@@ -141,7 +142,7 @@ public class CDIWebProjectWizardTemplate{
 	}
 	
 	private void openProjectProperties(String projectName){
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.selectProjects(projectName);
 		new ContextMenu().getItem("Properties").select();

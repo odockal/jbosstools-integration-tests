@@ -26,6 +26,7 @@ import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.common.wait.WaitWhile;
 import org.eclipse.reddeer.eclipse.core.resources.Project;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.jface.text.contentassist.ContentAssistant;
 import org.eclipse.reddeer.swt.api.StyledText;
@@ -221,7 +222,7 @@ public class EditorResourceHelper {
 		ProjectExplorer pe = new ProjectExplorer();
 		pe.open();
 		pe.getProject(projectName).refresh();
-		deleteInProjectExplorer(projectName, CDIConstants.JAVA_RESOURCES, CDIConstants.SRC, packageName);
+		deleteInProjectExplorer(projectName, CDIConstants.SRC, packageName);
 	}
 
 	/**
@@ -242,7 +243,7 @@ public class EditorResourceHelper {
 	 * @param path
 	 */
 	public void deleteInProjectExplorer(String projectName, String... path) {
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		Project p = pe.getProject(projectName);
 		p.select();
 		// refresh project due to bug in eclipse - new packages are shown outside of src
@@ -251,7 +252,7 @@ public class EditorResourceHelper {
 	}
 
 	public void renameFileInExplorerBase(String project, String newFileName, String... oldFilePath) {
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(project).getProjectItem(oldFilePath).select();
 
@@ -267,7 +268,7 @@ public class EditorResourceHelper {
 
 	public void moveFileInExplorerBase(String projectName, String[] sourceFile, String[] destFolder) {
 
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(projectName).getProjectItem(sourceFile).select();
 		new ShellMenu().getItem(IDELabel.Menu.FILE, IDELabel.Menu.MOVE).select();

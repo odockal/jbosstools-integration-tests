@@ -8,7 +8,7 @@ public class CDIConstants {
 	public static final String CLASS_END_TAG = "</class>";		
 	public static final String STEREOTYPE_OPEN_TAG = "<stereotype>";
 	public static final String STEREOTYPE_END_TAG = "</stereotype>";
-	public static final String JAVA_RESOURCES = "Java Resources";
+	public static final String JAVA_RESOURCES = "";
 	public static final String JAVA_SOURCE = "JavaSource";
 	public static final String SRC = "src";
 	public static final String JAVA_RESOURCES_SRC_FOLDER = JAVA_RESOURCES+"/"+SRC+"/";

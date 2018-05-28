@@ -18,6 +18,7 @@ import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.common.wait.WaitWhile;
 import org.eclipse.reddeer.eclipse.core.resources.Project;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.swt.impl.styledtext.DefaultStyledText;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
@@ -74,11 +75,11 @@ public abstract class BeansXMLValidationTemplate extends CDITestBase {
 	public void testInterceptorsValidation() {
 		
 		String className = "I1";
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		Project p = pe.getProject(getProjectName());
 		p.refresh();
-		if (!p.containsResource(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC, getPackageName(),
+		if (!p.containsResource(CDIConstants.SRC, getPackageName(),
 				someBean + ".java")) {
 			beansHelper.createClass(someBean, getPackageName());
 		}
@@ -123,11 +124,11 @@ public abstract class BeansXMLValidationTemplate extends CDITestBase {
 	public void testDecoratorsValidation() {
 		
 		String className = "D1";
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		Project p = pe.getProject(getProjectName());
 		p.refresh();
-		if (!p.containsResource(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC, getPackageName(),
+		if (!p.containsResource(CDIConstants.SRC, getPackageName(),
 				someBean + ".java")) {
 			beansHelper.createClass(someBean, getPackageName());
 		}
@@ -172,11 +173,11 @@ public abstract class BeansXMLValidationTemplate extends CDITestBase {
 	public void testAlternativesValidation() {
 		
 		String className = "A1";
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		Project p =pe.getProject(getProjectName());
 		p.refresh();
-		if (!p.containsResource(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC, getPackageName(),
+		if (!p.containsResource(CDIConstants.SRC, getPackageName(),
 				someBean + ".java")) {
 			beansHelper.createClass(someBean, getPackageName());
 		}

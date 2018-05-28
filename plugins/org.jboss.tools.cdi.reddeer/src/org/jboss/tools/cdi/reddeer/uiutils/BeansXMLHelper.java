@@ -11,6 +11,7 @@
 
 package org.jboss.tools.cdi.reddeer.uiutils;
 
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.swt.impl.styledtext.DefaultStyledText;
 import org.jboss.tools.cdi.reddeer.common.model.ui.editor.EditorPartWrapper;
@@ -25,7 +26,7 @@ import org.jboss.tools.cdi.reddeer.common.model.ui.editor.EditorPartWrapper;
 public class BeansXMLHelper {
 	
 	public EditorPartWrapper openBeansXml(String project){
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(project).getProjectItem("WebContent","WEB-INF","beans.xml").open();
 		return new EditorPartWrapper();

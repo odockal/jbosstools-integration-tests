@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.jface.text.contentassist.ContentAssistant;
 import org.eclipse.reddeer.workbench.impl.editor.TextEditor;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
@@ -51,9 +51,9 @@ public class AssignableDialogFilterTemplate extends CDITestBase {
 
 	@Test
 	public void testFilterAssignableBeans() {
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem(CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor ed = new TextEditor(appClass);
 		ed.selectText("animal");
@@ -108,9 +108,9 @@ public class AssignableDialogFilterTemplate extends CDITestBase {
 	@Test
 	public void testFilterNonAssignableBeans() {
 
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(getProjectName()).getProjectItem(CDIConstants.JAVA_RESOURCES, CDIConstants.SRC,
+		pe.getProject(getProjectName()).getProjectItem(CDIConstants.SRC,
 				getPackageName(), appClass).open();
 		TextEditor ed = new TextEditor(appClass);
 		ed.selectText("animal");

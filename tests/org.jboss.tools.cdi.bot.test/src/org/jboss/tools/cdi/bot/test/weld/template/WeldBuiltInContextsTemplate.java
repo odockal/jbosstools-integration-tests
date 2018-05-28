@@ -6,14 +6,15 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.eclipse.reddeer.common.wait.WaitUntil;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassCreationWizard;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassWizardPage;
-import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.workbench.condition.EditorHasValidationMarkers;
 import org.eclipse.reddeer.workbench.impl.editor.DefaultEditor;
 import org.eclipse.reddeer.workbench.impl.editor.Marker;
 import org.eclipse.reddeer.workbench.impl.editor.TextEditor;
 import org.jboss.tools.cdi.bot.test.CDITestBase;
+import org.jboss.tools.cdi.reddeer.CDIConstants;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,9 +27,9 @@ public class WeldBuiltInContextsTemplate extends CDITestBase{
 	@Before
 	public void addLibs(){
 		disableSourceLookup();
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		if(pe.getProject(PROJECT_NAME).containsResource("Java Resources","src","test","BuiltInContexts.java")){
+		if(pe.getProject(PROJECT_NAME).containsResource("src","test","BuiltInContexts.java")){
 			return;
 		}
 		NewClassCreationWizard jd = new NewClassCreationWizard();

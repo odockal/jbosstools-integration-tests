@@ -24,8 +24,8 @@ import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.common.wait.WaitWhile;
 import org.eclipse.reddeer.core.lookup.ShellLookup;
 import org.eclipse.reddeer.eclipse.core.resources.Project;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.jst.servlet.ui.project.facet.WebProjectFirstPage;
-import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
 import org.eclipse.reddeer.junit.requirement.inject.InjectRequirement;
 import org.eclipse.reddeer.swt.condition.ShellIsAvailable;
 import org.eclipse.reddeer.swt.impl.shell.DefaultShell;
@@ -78,6 +78,7 @@ public class CDITestBase {
 			WebProjectFirstPage fp = new WebProjectFirstPage(cw);
 			fp.setProjectName(PROJECT_NAME);
 			fp.setTargetRuntime(sr.getRuntimeName());
+			fp.activateFacet("1.8", "Java");
 			cw.finish();
 			new WaitUntil(new JobIsRunning(), TimePeriod.DEFAULT, false);
 			new WaitWhile(new JobIsRunning(), TimePeriod.LONG);
@@ -93,7 +94,7 @@ public class CDITestBase {
 	public static void cleanUp() {
 		new WaitWhile(new JobIsRunning());
 		EditorHandler.getInstance().closeAll(false);
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		for (Project p : pe.getProjects()) {
 			try {
@@ -108,7 +109,7 @@ public class CDITestBase {
 	protected void deleteAllProjects() {
 		new WaitWhile(new JobIsRunning());
 		EditorHandler.getInstance().closeAll(false);
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		for (Project p : pe.getProjects()) {
 			try {
@@ -159,7 +160,7 @@ public class CDITestBase {
 	}
 
 	public void refreshProject() {
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(getProjectName()).refresh();
 	}

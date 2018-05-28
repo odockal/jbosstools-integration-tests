@@ -9,6 +9,7 @@ import org.eclipse.reddeer.common.exception.WaitTimeoutExpiredException;
 import org.eclipse.reddeer.common.wait.TimePeriod;
 import org.eclipse.reddeer.common.wait.WaitUntil;
 import org.eclipse.reddeer.common.wait.WaitWhile;
+import org.eclipse.reddeer.eclipse.jdt.ui.packageview.PackageExplorerPart;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassCreationWizard;
 import org.eclipse.reddeer.eclipse.jdt.ui.wizards.NewClassWizardPage;
 import org.eclipse.reddeer.eclipse.ui.navigator.resources.ProjectExplorer;
@@ -26,9 +27,9 @@ public class BeansXMLDiscoveryModesTemplate extends CDITestBase{
 	public void addBeans(){
 		createClass(PROJECT_NAME, "Bean1");
 		createClass(PROJECT_NAME, "Bean2");
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
-		pe.getProject(PROJECT_NAME).getProjectItem(CDIConstants.JAVA_RESOURCES,CDIConstants.SRC,"test","Bean1.java").open();
+		pe.getProject(PROJECT_NAME).getProjectItem(CDIConstants.SRC,"test","Bean1.java").open();
 		TextEditor ed = new TextEditor("Bean1.java");
 		ed.insertLine(1, "import javax.inject.Inject;");
 		ed.insertLine(4, "@Inject");
@@ -95,7 +96,7 @@ public class BeansXMLDiscoveryModesTemplate extends CDITestBase{
 	
 	@Test
 	public void testWithoutBeansXml(){
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.getProject(PROJECT_NAME).getProjectItem("WebContent","WEB-INF","beans.xml").delete();
 		TextEditor ed = new TextEditor("Bean1.java");
@@ -125,7 +126,7 @@ public class BeansXMLDiscoveryModesTemplate extends CDITestBase{
 	}
 	
 	private void createClass(String project, String className){
-		ProjectExplorer pe = new ProjectExplorer();
+		PackageExplorerPart pe = new PackageExplorerPart();
 		pe.open();
 		pe.selectProjects(project);
 		NewClassCreationWizard c = new NewClassCreationWizard();
